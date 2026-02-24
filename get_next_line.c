@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next _line.c                                   :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 08:43:56 by finarako          #+#    #+#             */
-/*   Updated: 2026/02/24 15:14:08 by finarako         ###   ########.fr       */
+/*   Updated: 2026/02/24 16:08:48 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "get_next_line.h"
 
-char	*search_n(int fd, char *src, char *temp)
+static char	*search_n(int fd, char *src, char *temp)
 {
 	int	take_read;
 
@@ -21,17 +20,18 @@ char	*search_n(int fd, char *src, char *temp)
 	{
 		take_read = read(fd, src, BUFFER_SIZE);
 		if (take_read <= 0)
-			break;
+			break ;
 		src[take_read] = '\0';
 		temp = ft_strjoin(temp, src);
 	}
 	free(src);
 	return (temp);
 }
-char	*display_n(char *temp)
+
+static char	*display_n(char *temp)
 {
 	int		i;
-	int lengh;
+	int		lengh;
 	char	*display;
 
 	i = 0;
@@ -48,34 +48,36 @@ char	*display_n(char *temp)
 	}
 	if (temp[i] == '\n')
 		display[i++] = '\n';
-	display[i]= '\0';
+	display[i] = '\0';
 	return (display);
 }
-char	*move_temp(char *temp)
+
+static char	*move_temp(char *temp)
 {
 	char	*new_temp;
-	int lengh;
+	int		lengh;
 
 	lengh = 0;
 	while (temp[lengh] && temp[lengh] != '\n')
-	lengh++;
+		lengh++;
 	if (temp[lengh] == '\n')
-	lengh++;
-	new_temp = ft_strjoin(NULL,temp + lengh);
+		lengh++;
+	new_temp = ft_strjoin(NULL, temp + lengh);
 	return (new_temp);
 }
+
 char	*get_next_line(int fd)
 {
-	char	*src;
+	char		*src;
 	static char	*temp;
-	char	*display;
-	char	*old_temp;
+	char		*display;
+	char		*old_temp;
 
-	if ( fd < 0 || BUFFER_SIZE <= 0)
-	return (0);
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
 	src = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!src)
-	return (0);
+		return (0);
 	temp = search_n(fd, src, temp);
 	if (!temp || temp[0] == '\0')
 	{
