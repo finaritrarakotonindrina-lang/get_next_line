@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/24 08:43:56 by finarako          #+#    #+#             */
-/*   Updated: 2026/02/25 14:19:56 by finarako         ###   ########.fr       */
+/*   Created: 2026/02/24 15:56:40 by finarako          #+#    #+#             */
+/*   Updated: 2026/02/25 14:27:37 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*search_n(int fd, char *src, char *temp)
 {
@@ -69,7 +69,7 @@ static char	*move_temp(char *temp)
 char	*get_next_line(int fd)
 {
 	char		*src;
-	static char	*temp;
+	static char	*temp[1024];
 	char		*display;
 	char		*old_temp;
 
@@ -78,16 +78,16 @@ char	*get_next_line(int fd)
 	src = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!src)
 		return (0);
-	temp = search_n(fd, src, temp);
-	if (!temp || temp[0] == '\0')
+	temp[fd] = search_n(fd, src, temp[fd]);
+	if (!temp[fd] || *temp[fd] == '\0')
 	{
-		free(temp);
-		temp = NULL;
+		free(temp[fd]);
+		temp[fd] = NULL;
 		return (NULL);
 	}
-	display = display_n(temp);
-	old_temp = temp;
-	temp = move_temp(temp);
+	display = display_n(temp[fd]);
+	old_temp = temp[fd];
+	temp[fd] = move_temp(temp[fd]);
 	free(old_temp);
 	return (display);
 }
