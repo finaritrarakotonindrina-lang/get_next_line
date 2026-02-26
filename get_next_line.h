@@ -6,14 +6,15 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 15:42:49 by finarako          #+#    #+#             */
-/*   Updated: 2026/02/25 14:21:37 by finarako         ###   ########.fr       */
+/*   Updated: 2026/02/25 14:44:17 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 42
-
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 # include <stdbool.h>
 # include <stdlib.h>
 # include <unistd.h>
